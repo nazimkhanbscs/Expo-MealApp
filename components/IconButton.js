@@ -17,7 +17,11 @@ const IconButton = (props) => {
   return (
     <TouchableComp activeOpacity={0.6}>
       <View style={styles.container}>
-        <Ionicons {...props} style={{ ...styles.icon, ...props.style }} />
+        <Ionicons
+          {...props}
+          style={{ ...styles.icon, ...props.style }}
+          color={Platform.OS === "android" ? props.color : Colors.primaryColor}
+        />
       </View>
     </TouchableComp>
   );

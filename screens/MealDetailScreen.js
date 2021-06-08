@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Button, StyleSheet, Alert } from "react-native";
 import IconButton from "../components/IconButton";
 import { MEALS } from "../data/dummy-data";
-
+import Colors from "../constants/Colors";
 const MealDetailScreen = (props) => {
   const mealId = props.navigation.getParam("mealId");
 
@@ -30,7 +30,8 @@ MealDetailScreen.navigationOptions = (navigationData, props) => {
     headerRight: () => (
       <IconButton
         name="ios-star"
-        size={20}
+        size={23}
+        // color={Colors.accentColor}
         color="white"
         onPress={() => Alert.alert("You Pressed a Star")}
       />
