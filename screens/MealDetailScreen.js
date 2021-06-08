@@ -30,10 +30,19 @@ MealDetailScreen.navigationOptions = (navigationData, props) => {
     headerRight: () => (
       <IconButton
         name="ios-star"
+        size={20}
+        // color={Colors.accentColor}
+        color="white"
+        onPress={() => Alert.alert("You Pressed star Button")}
+      />
+    ),
+    headerLeft: () => (
+      <IconButton
+        name="md-menu"
         size={23}
         // color={Colors.accentColor}
         color="white"
-        onPress={() => Alert.alert("You Pressed a Star")}
+        onPress={() => Alert.alert("You Pressed the Menu")}
       />
     ),
   };

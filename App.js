@@ -4,7 +4,8 @@ import * as React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
-import MealsNavigator from "./navigation/MealsNavigator";
+// import MealsNavigator from "./navigation/MealsNavigator";
+import MealsFavTabNavigator from "./navigation/MealsNavigator";
 
 export default function App() {
   const [loaded] = useFonts({
@@ -18,7 +19,7 @@ export default function App() {
     return null;
   }
 
-  return <MealsNavigator />;
+  return <MealsFavTabNavigator />;
 }
 
 const styles = StyleSheet.create({
