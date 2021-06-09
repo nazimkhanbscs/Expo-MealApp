@@ -1,27 +1,29 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
   FlatList,
   StyleSheet,
-  TouchableOpacity
-} from 'react-native';
+  TouchableOpacity,
+} from "react-native";
 
-import { CATEGORIES } from '../data/dummy-data';
-import CategoryGridTile from '../components/CategoryGridTile';
+import { Ionicons } from "@expo/vector-icons";
 
-const CategoriesScreen = props => {
-  const renderGridItem = itemData => {
+import { CATEGORIES } from "../data/dummy-data";
+import CategoryGridTile from "../components/CategoryGridTile";
+
+const CategoriesScreen = (props) => {
+  const renderGridItem = (itemData) => {
     return (
       <CategoryGridTile
         title={itemData.item.title}
         color={itemData.item.color}
         onSelect={() => {
           props.navigation.navigate({
-            routeName: 'CategoryMeals',
+            routeName: "CategoryMeals",
             params: {
-              categoryId: itemData.item.id
-            }
+              categoryId: itemData.item.id,
+            },
           });
         }}
       />
@@ -38,16 +40,29 @@ const CategoriesScreen = props => {
   );
 };
 
-CategoriesScreen.navigationOptions = {
-  headerTitle: 'Meal Categories'
+CategoriesScreen.navigationOptions = (navigationData) => {
+  return {
+    headerTitle: "Meal Categories",
+    headerLeft: () => (
+      <Ionicons
+        name="ios-menu"
+        size={30}
+        color="white"
+        style={{ marginLeft: 10 }}
+        onPress={() => {
+          navigationData.navigation.toggleDrawer();
+        }}
+      />
+    ),
+  };
 };
 
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 export default CategoriesScreen;

@@ -15,23 +15,30 @@ const IconButton = (props) => {
     TouchableComp = TouchableNativeFeedback;
   }
   return (
-    <TouchableComp activeOpacity={0.6}>
+    <TouchableOpacity>
       <View style={styles.container}>
         <Ionicons
           {...props}
           style={{ ...styles.icon, ...props.style }}
           color={Platform.OS === "android" ? props.color : Colors.primaryColor}
+          size={25}
         />
       </View>
-    </TouchableComp>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center" },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
+    width: "100%",
+  },
   icon: {
-    marginRight: 10,
-    marginLeft: 10,
+    marginRight: 15,
+    marginLeft: 15,
   },
 });
 
