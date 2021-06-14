@@ -1,16 +1,12 @@
-import React from "react";
-import {
-  View,
-  Button,
-  StyleSheet,
-  Alert,
-  ScrollView,
-  Image,
-} from "react-native";
-import IconButton from "../components/IconButton";
-import { MEALS } from "../data/dummy-data";
-import Colors from "../constants/Colors";
+import React, { useEffect, useCallback } from "react";
+import { ScrollView, View, Image, StyleSheet } from "react-native";
+// import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { useSelector, useDispatch } from "react-redux";
 import Text from "../components/Text";
+// import HeaderButton from "../components/HeaderButton";
+import IconButton from "../components/IconButton";
+
+import { toggleFavorite } from "../store/actions/meals";
 
 const ListItem = (props) => {
   return (
@@ -21,51 +17,50 @@ const ListItem = (props) => {
 };
 
 const MealDetailScreen = (props) => {
+  const availableMeals = useSelector((state) => state.meals.meals);
   const mealId = props.navigation.getParam("mealId");
 
-  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+  const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
+
+  const dispatch = useDispatch();
+
+  const toggleFavoriteHandler = useCallback(() => {
+    dispatch(toggleFavorite(mealId));
+  }, [dispatch, mealId]);
+
+  useEffect(() => {
+    // props.navigation.setParams({ mealTitle: selectedMeal.title });
+    props.navigation.setParams({ toggleFav: toggleFavoriteHandler });
+  }, [toggleFavoriteHandler]);
 
   return (
     <ScrollView>
-      <View style={{ marginVertical: 1 }}>
-        <Image source={{ uri: selectedMeal.imageUrl }} style={styles.image} />
-        <View style={styles.details}>
-          <Text style={{}}>{selectedMeal.duration}m</Text>
-          <Text style={{}}>{selectedMeal.complexity.toUpperCase()}</Text>
-          <Text st yle={{}}>
-            {selectedMeal.affordability.toUpperCase()}
-          </Text>
-        </View>
-        <Text style={styles.title}>Ingredients</Text>
-        {selectedMeal.ingredients.map((ingredient) => (
-          <ListItem key={ingredient}>{ingredient}</ListItem>
-        ))}
-        <Text style={styles.title}>Steps</Text>
-        {selectedMeal.steps.map((step) => (
-          <ListItem>{step}</ListItem>
-        ))}
+      <Image source={{ uri: selectedMeal.imageUrl }} style={styles.image} />
+      <View style={styles.details}>
+        <Text>{selectedMeal.duration}m</Text>
+        <Text>{selectedMeal.complexity.toUpperCase()}</Text>
+        <Text>{selectedMeal.affordability.toUpperCase()}</Text>
       </View>
+      <Text style={styles.title}>Ingredients</Text>
+      {selectedMeal.ingredients.map((ingredient) => (
+        <ListItem key={ingredient}>{ingredient}</ListItem>
+      ))}
+      <Text style={styles.title}>Steps</Text>
+      {selectedMeal.steps.map((step) => (
+        <ListItem key={step}>{step}</ListItem>
+      ))}
     </ScrollView>
   );
 };
 
-MealDetailScreen.navigationOptions = (navigationData, props) => {
-  const mealId = navigationData.navigation.getParam("mealId");
-  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
-
+MealDetailScreen.navigationOptions = (navigationData) => {
+  // const mealId = navigationData.navigation.getParam('mealId');
+  const mealTitle = navigationData.navigation.getParam("mealTitle");
+  const toggleFavorite = navigationData.navigation.getParam("toggleFav");
+  // const selectedMeal = MEALS.find(meal => meal.id === mealId);
   return {
-    headerTitle: selectedMeal.title,
-    headerRight: () => (
-      <IconButton
-        name="ios-star"
-        size={20}
-        // color={Colors.accentColor}
-        color="white"
-        onPress={() => console.log("hello")}
-        // onPress={() => Alert.alert("You Pressed star Button")}
-        style={{ marginRight: 40 }}
-      />
-    ),
+    headerTitle: mealTitle,
+    headerRight: <IconButton name="ios-star" onPress={toggleFavorite} />,
   };
 };
 
@@ -81,8 +76,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "open-sans-bold",
-    textAlign: "center",
     fontSize: 22,
+    textAlign: "center",
   },
   listItem: {
     marginVertical: 10,

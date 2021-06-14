@@ -15,16 +15,16 @@ const IconButton = (props) => {
     TouchableComp = TouchableNativeFeedback;
   }
   return (
-    <TouchableOpacity>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <TouchableComp>
         <Ionicons
           {...props}
           style={{ ...styles.icon, ...props.style }}
           color={Platform.OS === "android" ? props.color : Colors.primaryColor}
           size={25}
         />
-      </View>
-    </TouchableOpacity>
+      </TouchableComp>
+    </View>
   );
 };
 

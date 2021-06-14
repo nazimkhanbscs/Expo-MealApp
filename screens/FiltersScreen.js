@@ -1,8 +1,12 @@
-import { Ionicons } from "@expo/vector-icons";
 import React, { useState, useEffect, useCallback } from "react";
-import { View, Text, StyleSheet, Switch, Platform } from "react-native";
+import { View, StyleSheet, Switch, Platform } from "react-native";
+// import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import Text from "../components/Text";
+// import HeaderButton from "../components/HeaderButton";
 import IconButton from "../components/IconButton";
 import Colors from "../constants/Colors";
+import { useDispatch } from "react-redux";
+import { setFilters } from "../store/actions/meals";
 
 const FilterSwitch = (props) => {
   return (
@@ -25,7 +29,7 @@ const FiltersScreen = (props) => {
   const [isLactoseFree, setIsLactoseFree] = useState(false);
   const [isVegan, setIsVegan] = useState(false);
   const [isVegetarian, setIsVegetarian] = useState(false);
-
+  const dispatch = useDispatch();
   const saveFilters = useCallback(() => {
     const appliedFilters = {
       glutenFree: isGlutenFree,
@@ -33,8 +37,7 @@ const FiltersScreen = (props) => {
       vegan: isVegan,
       isVegetarian: isVegetarian,
     };
-
-    console.log(appliedFilters);
+    dispatch(setFilters(appliedFilters));
   }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian]);
 
   useEffect(() => {
@@ -74,7 +77,6 @@ FiltersScreen.navigationOptions = (navData) => {
     headerLeft: (
       <IconButton
         name="ios-menu"
-        color="white"
         onPress={() => {
           navData.navigation.toggleDrawer();
         }}
@@ -83,7 +85,6 @@ FiltersScreen.navigationOptions = (navData) => {
     headerRight: (
       <IconButton
         name="ios-save"
-        color="white"
         onPress={navData.navigation.getParam("save")}
       />
     ),

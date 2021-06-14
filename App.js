@@ -5,8 +5,17 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 // import MealsNavigator from "./navigation/MealsNavigator";
-import MealsFavTabNavigator from "./navigation/MealsNavigator";
 
+import { createStore, combineReducers } from "redux";
+import MealsFavTabNavigator from "./navigation/MealsNavigator";
+import mealsReducer from "./store/reducers/meals";
+import { Provider } from "react-redux";
+
+const rootReducer = combineReducers({
+  meals: mealsReducer,
+});
+
+const store = createStore(rootReducer);
 export default function App() {
   const [loaded] = useFonts({
     ...Ionicons.font,
@@ -19,7 +28,11 @@ export default function App() {
     return null;
   }
 
-  return <MealsFavTabNavigator />;
+  return (
+    <Provider store={store}>
+      <MealsFavTabNavigator />
+    </Provider>
+  );
 }
 
 const styles = StyleSheet.create({
